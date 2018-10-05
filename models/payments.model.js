@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const debtSchema = new mongoose.Schema({
+const paymentSchema = new mongoose.Schema({
     subject: {
         type: String,
         required: 'Please insert human readable concept'
@@ -35,5 +35,5 @@ const debtSchema = new mongoose.Schema({
 
 })
 
-const Debt = mongoose.model('Debt', debtSchema)
-module.export = Debt;
+const Payment = mongoose.model('Paymen', paymentSchema)
+module.export = Payment

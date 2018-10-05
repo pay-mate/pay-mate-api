@@ -9,7 +9,7 @@ const groupSchema = new mongoose.Schema({
 
     admin: {
         type: mongoose.Schema.Types.ObjectId,//ObjectId = enlace a otro doc. 
-        ref: 'User'
+        ref: 'Admin'
     },
 
     users: {
@@ -23,9 +23,9 @@ const groupSchema = new mongoose.Schema({
 
     },
 
-    debts: {
+    payments: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Debt'
+        ref: 'Payments'
     }
 
 });
