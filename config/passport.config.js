@@ -1,6 +1,6 @@
 const LocalStrategy = require ('passport-local').Strategy;
 const createError = require('http-errors');
-const User = require('../models/user.model');
+const User = require('../models/admin.model');
 
 
 module.exports.init = (passport) => {

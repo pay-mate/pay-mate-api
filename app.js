@@ -14,8 +14,9 @@ require ('./config/passport.config').init(passport);
 
 
 const sessionRouter = require('./routes/sessions.routes');
-const usersRouter = require('./routes/users.routes');
+const adminsRouter = require('./routes/admins.routes');
 const groupsRouter = require('./routes/groups.routes');
+const paymentRouter = require('./routes/payments.routes');
 
 const app = express();
 
@@ -38,8 +39,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', sessionRouter);
-app.use('/users', usersRouter);
+app.use('/admins', adminsRouter);
 app.use('/groups', groupsRouter);
+app.use('/payments',paymentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
