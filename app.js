@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
+// const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 // const mongoose = require('mongoose');
@@ -15,6 +15,7 @@ require ('./config/passport.config').init(passport);
 
 const sessionRouter = require('./routes/sessions.routes');
 const usersRouter = require('./routes/users.routes');
+const groupsRouter = require('./routes/groups.routes');
 
 const app = express();
 
@@ -29,16 +30,16 @@ app.use(session({
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    maxAge: 2419200000
+    maxAge: 60*60*24*2
   }
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(passport.session());
 app.use('/', sessionRouter);
 app.use('/users', usersRouter);
+app.use('/groups', groupsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
