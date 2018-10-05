@@ -16,29 +16,25 @@ module.exports.init = (passport) => {
             .catch(error => next(error))
     })
 
-    passport.use('auth -local', new LocalStrategy({
+    passport.use('auth-local', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password'
-    }, (email, password, next) => {
-        User.findOne({
-                email: email
-            })
-            .then(user => {
-                if (!user) {
+      }, (email, password, next) => {
+        User.findOne({ email: email })
+          .then(user => {
+            if (!user) {
+              throw createError(401, 'Invalid email or password');
+            } else {
+              return user.checkPassword(password)
+                .then(match => {
+                  if (!match) {
                     throw createError(401, 'Invalid email or password');
-                } else {
-                    return user.checkPasword(password)
-                        .then(match => {
-                            if (!match) {
-                                throw createError(401, 'Invalid email or password')
-
-                            } else {
-                                next(null, user);
-                            }
-                        })
-                }
-            })
-            .catch(error => next(error))
-    }));
-
-}
+                  } else {
+                    next(null, user);
+                  }
+                })
+            }
+          })
+          .catch(error => next(error))
+      }));
+    }
