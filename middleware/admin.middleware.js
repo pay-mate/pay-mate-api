@@ -14,4 +14,3 @@ module.exports.isLogin = (params = 'id') => {
         }
     }
 }
-
