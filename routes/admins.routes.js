@@ -6,6 +6,6 @@ const secure = require('../middleware/secure.middleware');
 
 router.post('/', admins.create);
 router.get('/',secure.isAuthenticated, admins.list);
-router.delete('/:id',admin.isLogin() ,admins.delete);
+router.delete('/:id',admin.isMe() ,admins.delete);
 
 module.exports = router;

@@ -12,22 +12,6 @@ const groupSchema = new mongoose.Schema({
         ref: 'Admin'
     },
 
-    users: {
-        type: [{
-            name: {
-                type: String,
-                required: 'User needs a name',
-            }
-        }],
-        default: []
-
-    },
-
-    payments: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Payment'
-    }
-
 });
 
 const Group = mongoose.model('Group', groupSchema);

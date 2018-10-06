@@ -2,7 +2,6 @@ const Payment = require ('../models/payment.model');
 
 module.exports.create = (req,res,next)=> {
     const payment = new Payment (req.body);
-    // payment.admin = req.user.id;
     payment.save()
     .then(payment => res.status(201).json(payment))
     .catch(error => next (error));
