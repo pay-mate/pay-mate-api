@@ -25,7 +25,7 @@ const groupSchema = new mongoose.Schema({
 
     payments: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Payments'
+        ref: 'Payment'
     }
 
 });

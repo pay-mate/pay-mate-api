@@ -1,39 +1,43 @@
 const mongoose = require('mongoose');
 
 const paymentSchema = new mongoose.Schema({
+
     subject: {
         type: String,
-        required: 'Please insert human readable concept'
+        minlength: [3, ' The group name must contain at least 3 characters']
     },
 
-    amount: {
+        amount: {
         type: Number,
         required: 'The amount is required'
     },
 
-    date: {
+        date: {
         type: Date,
         default: Date.now
     },
 
-    image: String, //¿Buffer?
-
-    status: {
+        image: String, //¿Buffer?
+    
+            status: {
         type: String,
-        enum: ['PENDING', 'PAYED']
+
+        enum: ['PENDING', 'PAYED'],
+        default: ['PENDING'],
+        required: true
     },
 
-    payer: {
+        payer: {
         type: mongoose.Schema.Types.ObjectId,// Usuario que paga
         required: 'Deb needs a payer'
     },
 
-    debtors: {
+        debtors: {
         type: [mongoose.Schema.Types.ObjectId], // Usuarios que deben dinero al payer
         default: []
     },
 
-})
+});
 
-const Payment = mongoose.model('Paymen', paymentSchema)
-module.export = Payment
+const Payment = mongoose.model('Payment', paymentSchema);
+module.exports = Payment;
