@@ -17,6 +17,7 @@ const sessionRouter = require('./routes/sessions.routes');
 const adminsRouter = require('./routes/admins.routes');
 const groupsRouter = require('./routes/groups.routes');
 const paymentRouter = require('./routes/payments.routes');
+const usersRouter = require('./routes/users.routes');
 
 const app = express();
 
@@ -41,7 +42,8 @@ app.use(passport.session());
 app.use('/', sessionRouter);
 app.use('/admins', adminsRouter);
 app.use('/groups', groupsRouter);
-app.use('/payments',paymentRouter);
+app.use('/groups/:groupId/payments',paymentRouter);
+app.use('/groups/:groupId/users',usersRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

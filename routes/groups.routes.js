@@ -8,5 +8,6 @@ router.get('/', group.list);
 router.get('/:id', group.select);
 router.get('/:id', group.update);
 router.delete('/:id', group.delete);
+router.get('/:id/result', group.result);
 
 module.exports = router;

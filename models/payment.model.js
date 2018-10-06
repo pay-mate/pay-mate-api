@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 
 const paymentSchema = new mongoose.Schema({
 
+    group: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Group',
+        required: true
+    },
+    
     subject: {
         type: String,
         minlength: [3, ' The group name must contain at least 3 characters']
@@ -29,11 +35,13 @@ const paymentSchema = new mongoose.Schema({
 
         payer: {
         type: mongoose.Schema.Types.ObjectId,// Usuario que paga
-        required: 'Deb needs a payer'
+        ref: 'User',
+        required: 'Deb needs a payer',
     },
 
         debtors: {
         type: [mongoose.Schema.Types.ObjectId], // Usuarios que deben dinero al payer
+        ref: 'User',
         default: []
     },
 

@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 
-module.exports.isLogin = (params = 'id') => {
+module.exports.isMe = (params = 'id') => {
 
     return (req, res, next) => {
         const admin_id = req.params[params];
