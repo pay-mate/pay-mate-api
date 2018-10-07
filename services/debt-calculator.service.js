@@ -1,6 +1,5 @@
 class DebtCalculatorService {
-    constructor(users, payments, group) {
-        this.group = group;
+    constructor(users, payments) {
         this.users = users;
         this.payments = payments;
     }
@@ -9,8 +8,6 @@ class DebtCalculatorService {
         const debts = [];
         const payers = Object.assign([], this.payers());
         const receivers = Object.assign([], this.receivers());
-
-        // while (payers.some(x => x !== 0) && receivers.some(x => x !== 0)) {
   
             payers.forEach((payer) => {
                 console.log('payer', payer.value)
@@ -31,12 +28,8 @@ class DebtCalculatorService {
                         destination: receiver.id,
                         amount: amount
                     });
-    
-                    // payer.value += amount;
-                    // receiver.value -= amount;
                 });
             });
-        // }
         return debts;
     }
 
