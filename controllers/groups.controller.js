@@ -36,7 +36,7 @@ module.exports.result = (req,res,next) => {
         Users.find({ group: req.params.id })
     ])
     .then(([group, payments, users]) => {
-        const result = new DebtCalculatorService(users, payments, group).calculate();
+        const result = new DebtCalculatorService(users, payments).calculateDebts();
 
         res.json({ result })
     })
