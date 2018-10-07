@@ -5,49 +5,50 @@ class DebtCalculatorService {
         this.payments = payments;
     }
 
-    calculate() {
-        const result = [];
+    calculateDebts() {
+        const debts = [];
         const payers = Object.assign([], this.payers());
         const receivers = Object.assign([], this.receivers());
 
-        while (payers.some(x => x !== 0) && receivers.some(x => x !== 0)) {
-            console.log(payers)
-            console.log(receivers)
-            payers.forEach((p) => {
-                receivers.forEach((r) => {
-                    if (p.value === 0 || r.value === 0) return;
+        // while (payers.some(x => x !== 0) && receivers.some(x => x !== 0)) {
+  
+            payers.forEach((payer) => {
+                console.log('payer', payer.value)
+                receivers.forEach((receiver) => {
+                console.log('receiver', receiver.value)
+
+                    if (payer.value === 0 || receiver.value === 0) return;
     
                     let amount = 0;
     
-                    if (Math.abs(p.value) >= Math.abs(r.value)) {
-                        amount = Math.abs(p.value) - Math.abs(r.value);
+                    if (Math.abs(payer.value) >= Math.abs(receiver.value)) {
+                        amount = (Math.abs(payer.value) - Math.abs(receiver.value)).toFixed(2);
                     } else {
-                        amount = Math.abs(r.value) - Math.abs(p.value);
+                        amount = (Math.abs(receiver.value) - Math.abs(payer.value)).toFixed(2);
                     }
-    
-                    result.push({
-                        source: p.id,
-                        destination: r.id,
+                    debts.push({
+                        debtor: payer.id,
+                        destination: receiver.id,
                         amount: amount
                     });
     
-                    p.value += amount;
-                    r.value -= amount;
+                    // payer.value += amount;
+                    // receiver.value -= amount;
                 });
             });
-        }
-    
-        return result;
+        // }
+        return debts;
     }
 
+   
     totalAmount() {
-       return this.payments.reduce((acc, el) => acc + el.amount, 0); 
+       return (this.payments.reduce((acc, el) => acc + el.amount, 0)).toFixed(2); 
     }
 
     part() {
         return Number(
             (this.totalAmount() / this.users.length).toFixed(2)
-        )
+        );
     }
 
     paymentPerUserId() {
