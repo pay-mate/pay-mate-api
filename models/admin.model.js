@@ -12,7 +12,7 @@ const adminSchema = new mongoose.Schema ({
     password: {
         type: String,
         requiered: 'The password is required',
-        minlength: [6, ' The group name must contain at least 6 characters']
+        minlength: [6, ' The password name must contain at least 6 characters']
     }
 })
 
