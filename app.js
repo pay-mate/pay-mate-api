@@ -8,9 +8,11 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+const cors = require('cors');
 
 require ('./config/db.config');
 require ('./config/passport.config').init(passport);
+const corsConfig = require('./config/cors.config');
 
 
 const sessionRouter = require('./routes/sessions.routes');
@@ -25,6 +27,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors(corsConfig));
 
 app.use(session({
   secret: process.env.COOKIE_SECRET || 'Super Secret',
