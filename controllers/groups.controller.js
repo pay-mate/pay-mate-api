@@ -1,8 +1,9 @@
 const Group = require ('../models/group.model');
-const mongoose = require ('mongoose');
 const Payments = require ('../models/payment.model');
 const Users = require ('../models/user.model');
 const DebtCalculatorService = require('../services/debt-calculator.service');
+const createError = require('http-errors');
+
 
 module.exports.create = (req,res,next)=> {
     const group = new Group (req.body);
@@ -43,19 +44,19 @@ module.exports.result = (req,res,next) => {
     .catch(error => next(error));
 }
 
-module.exports.update = (req,res,next) => {
-    Group.findById({admin:req.params.userId,_id: req.params.id})
-    .then(group =>{
-        if (!group){
-            throw createError(404, 'group not found')
-        }else{
-            group.save()
-            .then(group => res.status(200).json(group))
-            .catch(error => next (error));
-        }
-    })
-    .catch(error => next (error));
-}
+// module.exports.update = (req,res,next) => {
+//     Group.findById({admin:req.params.userId,_id: req.params.id})
+//     .then(group =>{
+//         if (!group){
+//             throw createError(404, 'group not found')
+//         }else{
+//             group.save()
+//             .then(group => res.status(200).json(group))
+//             .catch(error => next (error));
+//         }
+//     })
+//     .catch(error => next (error));
+// }
 
 module.exports.delete = (req,res,next) => {
     Group.findByIdAndRemove({admin:req.params.userId ,_id: req.params.id}) 
@@ -65,3 +66,17 @@ module.exports.delete = (req,res,next) => {
     .catch(error => next (error));
 }   
 
+module.exports.update = (req, res, next) => {
+    Group.findByIdAndUpdate({admin:req.params.userId,_id: req.params.id})
+    .then(group => {
+        if(!group) {
+            throw createError(404, 'Group not found')
+        } else {
+            // group.save()
+            then(group => res.status(200).json(group))
+            .catch(error => next (error));
+        }
+    }
+
+    )
+}

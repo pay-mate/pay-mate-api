@@ -1,7 +1,15 @@
 const Payment = require ('../models/payment.model');
+const createError = require('http-errors');
+
 
 module.exports.create = (req,res,next)=> {
     const payment = new Payment (req.body);
+    // payment.group = req.params.groupId;
+
+    if (req.file) {
+        payment.image = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      }
+
     payment.save()
     .then(payment => res.status(201).json(payment))
     .catch(error => next (error));
@@ -15,7 +23,7 @@ module.exports.list = (req,res,next) => {
 }
 
 module.exports.select = (req,res,next) => {
-    Payment.findById(req.params.id)
+    Payment.findById({admin: req.user.id, _id: req.params.id} )
     .then(payment => {
         if(!payment){
             throw createError(404,'Payment not found')
@@ -26,7 +34,7 @@ module.exports.select = (req,res,next) => {
 }
 
 module.exports.update = (req,res,next) => {
-    Payment.findById(req.params.id)
+    Payment.findById({admin: req.user.id, _id: req.params.id})
     .then(payment =>{
         if (!payment){
             throw createError(404, 'Payment not found')
@@ -40,7 +48,7 @@ module.exports.update = (req,res,next) => {
 }
 
 module.exports.delete = (req,res,next) => {
-    Payment.findByIdAndRemove(req.params.id) 
+    Payment.findByIdAndRemove({admin: req.user.id, _id: req.params.id}) 
     .then(() => {
         res.status(204).json()
     })

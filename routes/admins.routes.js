@@ -5,7 +5,8 @@ const admin = require('../middleware/admin.middleware');
 const secure = require('../middleware/secure.middleware');
 
 router.post('/', admins.create);
-router.get('/',secure.isAuthenticated, admins.list);
-router.delete('/:id',admin.isMe() ,admins.delete);
+router.get('/:id',secure.isAuthenticated, admins.list);
+router.put('/:id',secure.isAuthenticated, admins.update);
+router.delete('/:id', admin.isMe() ,admins.delete);
 
 module.exports = router;
