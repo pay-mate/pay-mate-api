@@ -14,7 +14,17 @@ const adminSchema = new mongoose.Schema ({
         requiered: 'The password is required',
         minlength: [6, ' The password name must contain at least 6 characters']
     }
-})
+  }, {
+    toJSON: {
+        transform: function(doc, ret) {
+            delete ret.__v;
+            delete ret.password;
+            ret.id = ret._id;
+            delete ret._id;
+            return ret;
+        }
+    }
+});
 
 adminSchema.pre('save', function save(next) {
     const admin = this;
@@ -31,8 +41,7 @@ adminSchema.pre('save', function save(next) {
         })
         .catch(error => next(error));
     }
-    
-  });
+});
   
   adminSchema.methods.checkPassword = function (password) {
     return bcrypt.compare(password, this.password);

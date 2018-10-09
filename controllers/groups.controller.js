@@ -8,7 +8,6 @@ const createError = require('http-errors');
 module.exports.create = (req,res,next)=> {
     const group = new Group (req.body);
     group.admin = req.user.id;
-
     group.save()
     .then(group => res.status(201).json(group))
     .catch(error => next (error));
