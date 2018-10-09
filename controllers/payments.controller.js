@@ -6,9 +6,12 @@ module.exports.create = (req,res,next) => {
     const payment = new Payment(req.body);
     payment.group = req.params.groupId;
     
-    if (req.file) {
-        payment.image = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    }
+    if (req.files) {
+        payment.image = [];
+        for (const file of req.files) {
+          payment.image.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+        }
+      }
     payment.save()
         .then(payment => {
             return res.status(201).json(payment)
