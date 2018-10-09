@@ -12,6 +12,15 @@ const groupSchema = new mongoose.Schema({
         ref: 'Admin'
     },
 
+}, {
+    toJSON: {
+        transform: function(doc, ret) {
+            delete ret.__v;
+            ret.id = ret._id;
+            delete ret._id;
+            return ret;
+        }
+    }
 });
 
 const Group = mongoose.model('Group', groupSchema);

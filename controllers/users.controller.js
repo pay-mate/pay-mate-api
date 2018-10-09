@@ -4,6 +4,7 @@ const createError = require('http-errors');
 
 module.exports.create = (req, res, next) => {
     const user = new User (req.body);
+    user.group = req.params.groupId;
     user.save()
     .then(user => res.status(201).json(user))
     .catch(error => next (error));
@@ -11,13 +12,13 @@ module.exports.create = (req, res, next) => {
 
 
 module.exports.list = (req,res,next) => {
-    User.find()
+    User.find({ group: req.params.groupId })
         .then( users => res.json(users))
         .catch(error => next(error));
 }
 
 module.exports.select = (req, res, next) => {
-    User.findById(req.params.id)
+    User.findById({_id: req.params.id, group: req.params.groupId})
     .then(user => {
         if(!user){
             throw createError(404,'User not found')
@@ -29,7 +30,7 @@ module.exports.select = (req, res, next) => {
 }
 
 module.exports.update = (req, res, next) => {
-    User.findById(req.params.id)
+    User.findById({_id: req.params.id, group: req.params.groupId})
         user.save()
         .then(user =>{
             if (!user){

@@ -45,6 +45,15 @@ const paymentSchema = new mongoose.Schema({
         default: []
     },
 
+}, {
+    toJSON: {
+        transform: function(doc, ret) {
+            delete ret.__v;
+            ret.id = ret._id;
+            delete ret._id;
+            return ret;
+        }
+    }
 });
 
 const Payment = mongoose.model('Payment', paymentSchema);
