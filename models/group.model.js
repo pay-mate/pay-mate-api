@@ -14,14 +14,34 @@ const groupSchema = new mongoose.Schema({
 
 }, {
     toJSON: {
+        virtuals: true,
         transform: function(doc, ret) {
             delete ret.__v;
             ret.id = ret._id;
             delete ret._id;
+
+            if (!ret.payments) {
+                ret.payments = [];
+            }
+
             return ret;
         }
     }
 });
+
+groupSchema.virtual('payments', {
+    ref: 'Payment',
+    localField: '_id',
+    foreignField: 'group',
+    options: { sort: { date: -1 } }
+})
+
+groupSchema.virtual('users', {
+    ref: 'User',
+    localField: '_id',
+    foreignField: 'group',
+    options: { sort: { date: -1 }}
+})
 
 const Group = mongoose.model('Group', groupSchema);
 module.exports = Group;
