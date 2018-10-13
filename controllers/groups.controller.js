@@ -22,7 +22,8 @@ module.exports.list = (req,res,next) => {
 
 module.exports.select = (req,res,next) => {
     Group.findById(req.params.id)
-    .populate({ path: 'payments', populate: { path: 'users'}  })
+    .populate({ path: 'payments' })
+    .populate({ path: 'users' })
     .then(group => res.json(group))
     .catch(error => next(error));
 }
