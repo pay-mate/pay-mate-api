@@ -15,17 +15,15 @@ module.exports.create = (req,res,next)=> {
 
 module.exports.list = (req,res,next) => {
     Group.find({admin: req.user.id})
-    .then(groups => res.json(groups))
-    .catch(error => next(error));
+        .populate({ path: 'payments', populate: { path: 'payer'}})
+        .then(groups => res.json(groups))
+        .catch(error => next(error));
 }
 
 module.exports.select = (req,res,next) => {
-    Promise.all([
-        Group.findById(req.params.id),
-        Payments.find({ group: req.params.id }),
-        Users.find({ group: req.params.id })
-    ])
-    .then(([group, payments, users]) => res.json({ payments, group, users }))
+    Group.findById(req.params.id)
+    .populate({ path: 'payments', populate: { path: 'users'}  })
+    .then(group => res.json(group))
     .catch(error => next(error));
 }
 
