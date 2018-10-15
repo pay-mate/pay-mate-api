@@ -13,14 +13,14 @@ module.exports.create = (req, res, next) => {
 
 module.exports.list = (req,res,next) => {
     User.find({ group: req.params.groupId })
-    .populate({ path: 'payments'})
+    .populate('payments')
         .then( users => res.json(users))
         .catch(error => next(error));
 }
 
 module.exports.select = (req, res, next) => {
     User.findById({_id: req.params.id, group: req.params.groupId})
-    .populate({ path: 'payments'})
+    .populate('payments')
     .then(user => {
         if(!user){
             throw createError(404,'User not found')
@@ -35,7 +35,7 @@ module.exports.update = (req, res, next) => {
     const id = req.params.id;
   
     User.findById(id)
-    .populate({ path: 'payments'})
+    .populate('payments')
       .then(user => {
         if (user) {
           Object.assign(user, {
