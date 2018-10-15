@@ -10,9 +10,9 @@ class DebtCalculatorService {
         const receivers = Object.assign([], this.receivers());
   
             payers.forEach((payer) => {
-                console.log('payer', payer.value)
+                // console.log('payer', payer.value)
                 receivers.forEach((receiver) => {
-                console.log('receiver', receiver.value)
+                // console.log('receiver', receiver.value)
 
                     if (payer.value === 0 || receiver.value === 0) return;
     
