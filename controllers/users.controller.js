@@ -13,12 +13,14 @@ module.exports.create = (req, res, next) => {
 
 module.exports.list = (req,res,next) => {
     User.find({ group: req.params.groupId })
+    .populate({ path: 'payments'})
         .then( users => res.json(users))
         .catch(error => next(error));
 }
 
 module.exports.select = (req, res, next) => {
     User.findById({_id: req.params.id, group: req.params.groupId})
+    .populate({ path: 'payments'})
     .then(user => {
         if(!user){
             throw createError(404,'User not found')
@@ -30,19 +32,34 @@ module.exports.select = (req, res, next) => {
 }
 
 module.exports.update = (req, res, next) => {
-    User.findById({_id: req.params.id, group: req.params.groupId})
-        user.save()
-        .then(user =>{
-            if (!user){
-                throw createError(404, 'User not found')
-            }else{
-                user.save()
-                .then(user => res.status(200).json(user))
-                .catch(error => next (error));
-            }
-        })
-        .catch(error => next (error));
-    }
+    const id = req.params.id;
+  
+    User.findById(id)
+    .populate({ path: 'payments'})
+      .then(user => {
+        if (user) {
+          Object.assign(user, {
+            name: req.body.name
+          });
+  
+          user.save()
+            .then(() => {
+              res.json(user);
+            })
+            .catch(error => {
+              if (error instanceof mongoose.Error.ValidationError) {
+                next(createError(400, error.errors));
+              } else {
+                next(error);
+              }
+            })
+        } else {
+          next(createError(404, `User not found`));
+        }
+      })
+      .catch(error => next(error));
+  }
+
 
 module.exports.delete = (req, res, next) => {
     User.findByIdAndRemove(req.params.id) 
@@ -51,3 +68,4 @@ module.exports.delete = (req, res, next) => {
     })
     .catch(error => next (error));
 }
+

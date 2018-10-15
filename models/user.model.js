@@ -24,6 +24,13 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+userSchema.virtual('payments', {
+    ref: 'Payment',
+    localField: '_id',
+    foreignField: 'payer',
+    options: { sort: { date: -1 } }
+})
+
 const User = mongoose.model('User',userSchema);
 
 module.exports = User ;
