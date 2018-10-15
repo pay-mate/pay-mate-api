@@ -16,17 +16,56 @@ module.exports.create = (req,res,next)=> {
 module.exports.list = (req,res,next) => {
     Group.find({admin: req.user.id})
         .populate({ path: 'payments', populate: { path: 'payer'}})
+        .populate({ path: 'users' })
         .then(groups => res.json(groups))
         .catch(error => next(error));
 }
 
 module.exports.select = (req,res,next) => {
     Group.findById(req.params.id)
-    .populate({ path: 'payments' })
+    .populate({ path: 'payments', populate: { path: 'payer'}})
     .populate({ path: 'users' })
     .then(group => res.json(group))
     .catch(error => next(error));
 }
+
+module.exports.update = (req, res, next) => {
+    const id = req.params.id;
+  
+    Group.findById(id)
+    .populate({ path: 'payments', populate: { path: 'payer'}})
+    .populate({ path: 'users' })
+      .then(group => {
+        if (group) {
+          Object.assign(group, {
+            name: req.body.name
+          });
+  
+          group.save()
+            .then(() => {
+              res.json(group);
+            })
+            .catch(error => {
+              if (error instanceof mongoose.Error.ValidationError) {
+                next(createError(400, error.errors));
+              } else {
+                next(error);
+              }
+            })
+        } else {
+          next(createError(404, `Group not found`));
+        }
+      })
+      .catch(error => next(error));
+  }
+
+module.exports.delete = (req,res,next) => {
+    Group.findByIdAndRemove({admin:req.params.userId ,_id: req.params.id}) 
+    .then(() => {
+        res.status(204).json()
+    })
+    .catch(error => next (error));
+}   
 
 module.exports.result = (req,res,next) => { 
     Promise.all([
@@ -40,41 +79,4 @@ module.exports.result = (req,res,next) => {
         res.json({ result })
     })
     .catch(error => next(error));
-}
-
-// module.exports.update = (req,res,next) => {
-//     Group.findById({admin:req.params.userId,_id: req.params.id})
-//     .then(group =>{
-//         if (!group){
-//             throw createError(404, 'group not found')
-//         }else{
-//             group.save()
-//             .then(group => res.status(200).json(group))
-//             .catch(error => next (error));
-//         }
-//     })
-//     .catch(error => next (error));
-// }
-
-module.exports.delete = (req,res,next) => {
-    Group.findByIdAndRemove({admin:req.params.userId ,_id: req.params.id}) 
-    .then(() => {
-        res.status(204).json()
-    })
-    .catch(error => next (error));
-}   
-
-module.exports.update = (req, res, next) => {
-    Group.findByIdAndUpdate({admin:req.params.userId,_id: req.params.id})
-    .then(group => {
-        if(!group) {
-            throw createError(404, 'Group not found')
-        } else {
-            // group.save()
-            then(group => res.status(200).json(group))
-            .catch(error => next (error));
-        }
-    }
-
-    )
 }

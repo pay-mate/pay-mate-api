@@ -10,7 +10,7 @@ const paymentSchema = new mongoose.Schema({
     
     subject: {
         type: String,
-        minlength: [3, ' The group name must contain at least 3 characters']
+        minlength: [3, ' The payment name must contain at least 3 characters']
     },
 
         amount: {
@@ -36,7 +36,7 @@ const paymentSchema = new mongoose.Schema({
         payer: {
         type: mongoose.Schema.Types.ObjectId,// Usuario que paga
         ref: 'User',
-        required: 'Deb needs a payer',
+        required: 'Payment needs a payer'
     },
 
         debtors: {
