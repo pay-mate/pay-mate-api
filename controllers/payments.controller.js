@@ -1,23 +1,33 @@
-const Payment = require ('../models/payment.model');
 const createError = require('http-errors');
 
+const Payment = require ('../models/payment.model');
+const User = require ('../models/user.model');
 
 module.exports.create = (req,res,next) => {
-    const payment = new Payment(req.body);
-    payment.group = req.params.groupId;
-    
-    if (req.files) {
-        payment.image = [];
-        for (const file of req.files) {
-          payment.image.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
-        }
+  const payment = new Payment(req.body);
+  payment.group = req.params.groupId;
+  
+  if (req.files) {
+      payment.image = [];
+      for (const file of req.files) {
+        payment.image.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
       }
-    payment.save()
+    }
+  
+  User.findById({_id: payment.payer})
+  .then(user => {
+      if(!user){
+          throw createError(404,'User not found')
+      }else{
+        payment.save()
         .then(payment => {
             return res.status(201).json(payment)
         } )
         .catch(error => next(error));
-}
+      }})
+      .catch(error => next(error));
+    }
+
 
 module.exports.list = (req,res,next) => {
     Payment.find({ group: req.params.groupId })
