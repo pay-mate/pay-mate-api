@@ -10,9 +10,9 @@ class DebtCalculatorService {
         const receivers = Object.assign([], this.receivers());
   
             payers.forEach((payer) => {
-                // console.log('payer', payer.value)
+                console.log('payer', payer)
                 receivers.forEach((receiver) => {
-                // console.log('receiver', receiver.value)
+                console.log('receiver', receiver)
 
                     if (payer.value === 0 || receiver.value === 0) return;
     
@@ -21,7 +21,8 @@ class DebtCalculatorService {
                     if (Math.abs(payer.value) >= Math.abs(receiver.value)) {
                         amount = (Math.abs(payer.value) - Math.abs(receiver.value)).toFixed(2);
                     } else {
-                        amount = (Math.abs(receiver.value) - Math.abs(payer.value)).toFixed(2);
+                        amount = payer.value;
+                        // amount = (Math.abs(receiver.value) - Math.abs(payer.value)).toFixed(2);
                     }
                     debts.push({
                         debtor: payer.id,
