@@ -12,6 +12,12 @@ const groupSchema = new mongoose.Schema({
         ref: 'Admin'
     },
 
+    image: {
+        type: String,
+        required: true,
+        default: 'https://www.bahamas.com/sites/default/files/styles/3_2_teaser/public/pinksand.jpg'
+    }
+
 }, {
     toJSON: {
         virtuals: true,
@@ -42,6 +48,13 @@ groupSchema.virtual('users', {
     foreignField: 'group',
     options: { sort: { date: -1 }}
 })
+
+// groupSchema.virtual('result', {
+//     ref: 'Result',
+//     localField: '_id',
+//     foreignField: 'group',
+//     options: { sort: { date: -1 }}
+// })
 
 const Group = mongoose.model('Group', groupSchema);
 module.exports = Group;

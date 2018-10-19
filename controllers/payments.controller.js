@@ -21,6 +21,7 @@ module.exports.create = (req,res,next) => {
       }else{
         payment.save()
         .then(payment => {
+          console.log('NUEVO PAYMENT', payment);
             return res.status(201).json(payment)
         } )
         .catch(error => next(error));

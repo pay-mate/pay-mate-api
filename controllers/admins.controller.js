@@ -27,35 +27,6 @@ module.exports.list = (req, res, next) => {
     .catch(error => next(error));
 }
 
-// module.exports.update = (req, res, next) => {
-//   const id = req.user.id;
-
-//   Admin.findById(id)
-//     .then(admin => {
-//       if (admin) {
-//         Object.assign(admin, {
-//           email: req.body.email,
-//           password: req.body.password
-//         });
-
-//         admin.save()
-//           .then(() => {
-//             res.json(admin);
-//           })
-//           .catch(error => {
-//             if (error instanceof mongoose.Error.ValidationError) {
-//               next(createError(400, error.errors));
-//             } else {
-//               next(error);
-//             }
-//           })
-//       } else {
-//         next(createError(404, `Admin not found`));
-//       }
-//     })
-//     .catch(error => next(error));
-// }
-
 module.exports.delete = (req,res,next) => {
   Admin.findByIdAndRemove(req.params.id) 
   .then(() => {

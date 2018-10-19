@@ -1,5 +1,6 @@
 const Group = require ('../models/group.model');
 const Payments = require ('../models/payment.model');
+const Result = require('../models/result.model');
 const Users = require ('../models/user.model');
 const DebtCalculatorService = require('../services/debt-calculator.service');
 const createError = require('http-errors');
@@ -67,15 +68,17 @@ module.exports.delete = (req,res,next) => {
     .catch(error => next (error));
 }   
 
-module.exports.result = (req,res,next) => { 
+module.exports.result = (req,res,next) => {
     Promise.all([
-        Group.findById(req.params.id),
+        Result.find({ group: req.params.id }),
         Payments.find({ group: req.params.id }),
         Users.find({ group: req.params.id })
+        .populate({ path: 'users' })  
     ])
-    .then(([group, payments, users]) => {
+    .then(([results, payments, users]) => {
+        // payments -> deudores [], pagadores [] -> ObjectId
+        // users -> objects id
         const result = new DebtCalculatorService(users, payments).calculateDebts();
-
         res.json({ result })
     })
     .catch(error => next(error));
