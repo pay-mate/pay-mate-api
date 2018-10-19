@@ -11,6 +11,11 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String, 
         required: true
+    },
+        image: {
+        type: String,
+        required: true,
+        default: 'https://thumbs.dreamstime.com/b/icono-masculino-de-la-imagen-del-perfil-del-avatar-del-defecto-placeholder-gris-de-la-foto-del-hombre-88414414.jpg'
     }
 
 }, {

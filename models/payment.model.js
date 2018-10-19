@@ -10,7 +10,8 @@ const paymentSchema = new mongoose.Schema({
     
     subject: {
         type: String,
-        minlength: [3, ' The payment name must contain at least 3 characters']
+        minlength: [3, ' The payment name must contain at least 3 characters'],
+        required: true
     },
 
         amount: {
@@ -20,12 +21,11 @@ const paymentSchema = new mongoose.Schema({
 
         date: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        required: 'The date is required'
     },
 
-        image: String, //¿Buffer?
-    
-            status: {
+        status: {
         type: String,
 
         enum: ['PENDING', 'PAYED'],
@@ -39,11 +39,11 @@ const paymentSchema = new mongoose.Schema({
         required: 'Payment needs a payer'
     },
 
-        debtors: {
-        type: [mongoose.Schema.Types.ObjectId], // Usuarios que deben dinero al payer
-        ref: 'User',
-        default: []
-    },
+    image: {
+        type: String,
+        required: true,
+        default: 'https://omextemplates.content.office.net/support/templates/en-us/lw89796131.png'
+    }
 
 }, {
     toJSON: {
