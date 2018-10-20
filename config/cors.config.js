@@ -1,6 +1,7 @@
 const originsAllowed = process.env.CORS_ORIGINS || [
     'http://localhost:3000',
-    'http://localhost:4200'
+    'http://localhost:4200',
+    'https://pay-mate.github.io/pay-mate-web'
   ];
   
   module.exports = {

@@ -9,19 +9,19 @@ const userSchema = new mongoose.Schema({
     },
 
     name: {
-        type: String, 
+        type: String,
         required: true
     },
-        image: {
+    image: {
         type: String,
         required: true,
-        default: 'https://thumbs.dreamstime.com/b/icono-masculino-de-la-imagen-del-perfil-del-avatar-del-defecto-placeholder-gris-de-la-foto-del-hombre-88414414.jpg'
+        default: 'https://image.freepik.com/foto-gratis/guapo-hombre-presentacion-algo_1368-87.jpg'
     }
 
 }, {
     toJSON: {
         virtuals: true,
-        transform: function(doc, ret) {
+        transform: function (doc, ret) {
             delete ret.__v;
             ret.id = ret._id;
             delete ret._id;
@@ -39,10 +39,13 @@ userSchema.virtual('payments', {
     ref: 'Payment',
     localField: '_id',
     foreignField: 'payer',
-    options: { sort: { date: -1 } }
+    options: {
+        sort: {
+            date: -1
+        }
+    }
 })
 
-const User = mongoose.model('User',userSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = User ;
-
+module.exports = User;
