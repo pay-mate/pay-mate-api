@@ -42,7 +42,7 @@ const paymentSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true,
-        default: 'https://omextemplates.content.office.net/support/templates/en-us/lw89796131.png'
+        default: 'https://image.freepik.com/vector-gratis/plantilla-factura-moderna-estilo-ondulado_1017-14520.jpg'
     }
 
 }, {

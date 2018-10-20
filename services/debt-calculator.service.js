@@ -24,9 +24,11 @@ class DebtCalculatorService {
 
                     debts.push({
                         debtorName: this.users.find(u => u.id === payer.id).name,
+                        debtorImage: this.users.find(u => u.id === payer.id).image,
                         destinationName: this.users.find(u => u.id === receiver.id).name,
                         debtor: payer.id,
                         destination: receiver.id,
+                        destinationImage: this.users.find(u => u.id === receiver.id).image,
                         amount: amount
                     });
                 });
