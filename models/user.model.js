@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true,
-        default: 'https://image.freepik.com/foto-gratis/guapo-hombre-presentacion-algo_1368-87.jpg'
+        default: 'https://image.freepik.com/foto-gratis/adolescente-estudiante-estudio-cuerpo-brazo_1301-1902.jpg'
     }
 
 }, {
