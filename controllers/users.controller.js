@@ -39,7 +39,8 @@ module.exports.update = (req, res, next) => {
       .then(user => {
         if (user) {
           Object.assign(user, {
-            name: req.body.name
+            name: req.body.name,
+            image: req.body.image
           });
   
           user.save()
