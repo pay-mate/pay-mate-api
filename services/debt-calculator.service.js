@@ -16,11 +16,19 @@ class DebtCalculatorService {
     
                     let amount = 0;
     
-                    if (Math.abs(payer.value) >= Math.abs(receiver.value)) {
-                        amount = (Math.abs(payer.value) - Math.abs(receiver.value)).toFixed(2);
+                    if (payer.value < receiver.value) {
+                        amount = (payer.value)*-1;
+                        payer.value = 0;
                     } else {
-                        amount = payer.value;
+                        amount = (payer.value - receiver.value);
+                        payer.value = payer.value - amount;
                     }
+
+                    // if (Math.abs(payer.value) >= Math.abs(receiver.value)) {
+                    //     amount = (Math.abs(payer.value) - Math.abs(receiver.value)).toFixed(2);
+                    // } else {
+                    //     amount = (payer.value)*-1;
+                    // }
 
                     debts.push({
                         debtorName: this.users.find(u => u.id === payer.id).name,
